@@ -60,14 +60,14 @@ Perch <- select(Perch, -Species)
 ### Best Models
 
 ```{r}
-perchmodel1 <- lm(Length1~ .,data=Perch)
+perchmodel1 <- lm(Weight~ .,data=Perch)
 summary.lm(perchmodel1)
 ```
 
 ### Best Two regressor model
 ```{r}
 library(leaps)
-Perchmodelautomate <-
+Perchmodel1automate <-
     regsubsets(Weight ~ .,
                data = Perch,
                nbest = 1,       # 1 best model for each number of predictors
@@ -75,18 +75,45 @@ Perchmodelautomate <-
                force.in = NULL, force.out = NULL,
                method = "exhaustive")
 
-summary.Perch <- summary(Perchmodelautomate)
+summary.Perch <- summary(Perchmodel1automate)
 as.data.frame(summary.Perch$outmat)
 library(car)
-subsets(Perchmodelautomate,statistic="adjr2",legend="bottom",main="Adjusted R^2")
+subsets(Perchmodel1automate,statistic="adjr2",legend="bottom",main="Adjusted R^2")
 ```
 After running this code, I found the best single element regression model (Height),the best 2 element regression models (height and width), and i was also able to get the best 3,4, and 5 elements regression models.statistically how i judged the element regression models is by checking the adjusted r square values.
 ## Pike
+```{r}
+Pike <- filter(fish, Species == "Pike")
+Pike <- select(Pike, -Species) 
+```
+
+
 
 ### Best Models
+```{r}
+Pikemodel1 <- lm(Weight~ .,data=Pike)
+summary.lm(Pikemodel1)
+```
+
 
 ### Best Two regressor model
 
+```{r}
+library(leaps)
+Pikemodel1automate <-
+    regsubsets(Weight ~ .,
+               data = Pike,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+
+summary.Pike <- summary(Pikemodel1automate)
+as.data.frame(summary.Pike$outmat)
+library(car)
+subsets(Pikemodel1automate,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+After running the code for the pike, i was able to get that the best 2 regressor models were length 1 and 3. however, the best regressor models were length 1,2, and 3 along with height and width which is the complete model.all of the models were judged based on the adjusted R square values.
 ## Roach
 
 ### Best Models
